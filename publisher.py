@@ -9,6 +9,6 @@ rospy.init_node('base_topic_publisher')
 
 while not rospy.is_shutdown():
     pub.publish("a")
-    rospy.sleep(1)
+    rospy.sleep(0.5)
     pub.publish("b")
-    rospy.sleep(1)
+    rospy.sleep(0.5)

@@ -11,7 +11,7 @@ def callback(data):
     os.system(f'echo {data.data} > /dev/ttyACM0')
 
 def subscriber():
-    rospy.init_node('base_topic_publisher')
+    rospy.init_node('base_topic_subscriber')
     rospy.Subscriber("hello", String, callback)
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

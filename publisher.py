@@ -4,11 +4,17 @@
 import rospy
 from std_msgs.msg import String
 
-pub = rospy.Publisher('hello', String, queue_size=10)
-rospy.init_node('base_topic_publisher')
+pub = rospy.Publisher('control', String, queue_size=10)
+rospy.init_node('pc')
 
 while not rospy.is_shutdown():
-    pub.publish("a")
-    rospy.sleep(0.5)
-    pub.publish("b")
-    rospy.sleep(0.5)
+    for speed in range(-30, 30):
+        sp2 = speed + 100
+        pub.publish(f'sl{sp2//100}{sp2//10%10}{sp2%10}')
+        rospy.sleep(0.1)
+    pub.publish(f'sl100')
+    for speed in range(-30, 30):
+        sp2 = speed + 100
+        pub.publish(f'sr{sp2//100}{sp2//10%10}{sp2%10}')
+        rospy.sleep(0.1)
+    pub.publish(f'sr100')

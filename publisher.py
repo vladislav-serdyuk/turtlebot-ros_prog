@@ -3,30 +3,21 @@
 
 import rospy
 from std_msgs.msg import Int32
-from pynput.keyboard import Key, Listener
+from geometry_msgs.msg import Twist
+
+def in_range(x, min_, max_):
+    return max(min(x, max_), min_)
+
+def move(twist: Twist):
+    print(twist)
+    left_speed.publish(in_range(int((twist.linear.x*2 - twist.angular.z)*speed), -100, 100))
+    right_speed.publish(in_range(-int((twist.linear.x*2 + twist.angular.z)*speed), -100, 100))
 
 rospy.init_node('pc')
 left_speed = rospy.Publisher('speed_L', Int32, queue_size=10)
-right_speed = rospy.Publisher('speed_L', Int32, queue_size=10)
+right_speed = rospy.Publisher('speed_R', Int32, queue_size=10)
+keyboard_input = rospy.Subscriber('cmd_vel', Twist, move)
 
-def show(key):
-    if key == 'w':
-        left_speed.publish(speed)
-        right_speed.publish(speed)
-    elif key == 'a':
-        left_speed.publish(-speed)
-        right_speed.publish(speed)
-    elif key == 'd':
-        left_speed.publish(speed)
-        right_speed.publish(-speed)
-    elif key == 's':
-        left_speed.publish(-speed)
-        right_speed.publish(-speed)
-    else:
-        left_speed.publish(0)
-        right_speed.publish(0)
-
-speed = 50
+speed = 20
 while not rospy.is_shutdown():
-    with Listener(on_press=show) as listener:
-        listener.join()
+    pass

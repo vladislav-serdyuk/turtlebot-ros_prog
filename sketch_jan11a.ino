@@ -1,7 +1,7 @@
 #include <DynamixelWorkbench.h>
 
 #include <ros.h>
-#include <std_msgs/Int32.h>
+#include <std_msgs/Int8.h>
 
 #if defined(__OPENCM904__)
 #define DEVICE_NAME "3" //Dynamixel on Serial3(USART3)  <-OpenCM 485EXP
@@ -20,15 +20,15 @@ ros::NodeHandle nh;
 uint8_t dxl_id_L = DXL_ID_L;
 uint8_t dxl_id_R = DXL_ID_R;
 
-void set_speed_L( const std_msgs::Int32& msg){
+void set_speed_L( const std_msgs::Int8& msg){
   dxl_wb.goalVelocity(dxl_id_L, (int32_t)speedConvert(msg.data));
 }
-ros::Subscriber<std_msgs::Int32> speed_L("speed_L", &set_speed_L);
+ros::Subscriber<std_msgs::Int8> speed_L("speed_L", &set_speed_L);
 
-void set_speed_R( const std_msgs::Int32& msg){
+void set_speed_R( const std_msgs::Int8& msg){
   dxl_wb.goalVelocity(dxl_id_R, (int32_t)speedConvert(msg.data));
 }
-ros::Subscriber<std_msgs::Int32> speed_R("speed_R", &set_speed_R);
+ros::Subscriber<std_msgs::Int8> speed_R("speed_R", &set_speed_R);
 
 void setup() {
   // put your setup code here, to run once:

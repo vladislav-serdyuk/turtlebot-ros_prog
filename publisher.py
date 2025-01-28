@@ -50,7 +50,7 @@ def move_from_rc100(rc100_key: String):
         left_speed_ = 0
         right_speed_ = 0
 
-    left_speed.publish(int(in_range(left_speed_*1.22, -100, 100)))
+    left_speed.publish(int(in_range(left_speed_*1.15, -100, 100)))
     right_speed.publish(-right_speed_)
 
 rospy.init_node('pc')

@@ -15,7 +15,7 @@ def move(twist: Twist):
 
 def move_from_rc100(rc100_key: String):
     rc100_key_str = rc100_key.data
-    print(rc100_key_str)
+    # print(rc100_key_str)
     if rc100_key_str == 'U':
         left_speed_ = speed
         right_speed_ = speed

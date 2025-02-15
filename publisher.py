@@ -4,6 +4,7 @@
 import rospy
 from std_msgs.msg import Int8, String
 from geometry_msgs.msg import Twist
+from sensor_msgs.msg import LaserScan
 
 def in_range(x, min_, max_):
     return max(min(x, max_), min_)
@@ -53,11 +54,19 @@ def move_from_rc100(rc100_key: String):
     left_speed.publish(int(in_range(left_speed_*1.15, -100, 100)))
     right_speed.publish(-right_speed_)
 
+def lidar_handler(laser_scan: LaserScan):
+    global last_laser_scan
+    last_laser_scan = laser_scan.ranges
+    # print(len(last_laser_scan))
+    # print(last_laser_scan)
 rospy.init_node('pc')
 left_speed = rospy.Publisher('speed_L', Int8, queue_size=10)
 right_speed = rospy.Publisher('speed_R', Int8, queue_size=10)
 keyboard_input = rospy.Subscriber('cmd_vel', Twist, move)
 rc100 = rospy.Subscriber('rc100', String, move_from_rc100)
+lds = rospy.Subscriber('scan', LaserScan, lidar_handler)
+
+last_laser_scan = []
 
 speed = 60
 while not rospy.is_shutdown():
